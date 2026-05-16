@@ -1,16 +1,41 @@
 "use client";
 
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Database, Phone, Workflow as WorkflowIcon } from "lucide-react";
 
 import { useAuth } from "@/lib/auth";
+import { MORTGAGE_TEMPLATES } from "@/lib/agent-templates/mortgage-templates";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function OverviewPage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const firstName = user?.displayName?.split(" ")[0];
+  const hasFetched = useRef(false);
+  const [hasAgents, setHasAgents] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (authLoading || !user || hasFetched.current) return;
+    hasFetched.current = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/v1/agents", { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          const count = Array.isArray(data)
+            ? data.length
+            : (data.items?.length ?? 0);
+          setHasAgents(count > 0);
+        } else {
+          setHasAgents(true);
+        }
+      } catch {
+        setHasAgents(true);
+      }
+    })();
+  }, [authLoading, user]);
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -56,6 +81,58 @@ export default function OverviewPage() {
             All systems nominal
           </div>
         </motion.header>
+
+        {/* Quick-start: pre-built mortgage agents (only when user has zero agents) */}
+        <AnimatePresence>
+          {hasAgents === false && (
+            <motion.section
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-10"
+            >
+              <div className="mb-6 flex items-center gap-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary/80">
+                  <span className="mr-2 inline-block h-px w-6 translate-y-[-3px] bg-primary/60 align-middle" />
+                  Quick-start
+                </p>
+                <div className="h-px flex-1 bg-border/50" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  Pre-built mortgage agents
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                {MORTGAGE_TEMPLATES.map((t, i) => (
+                  <motion.div
+                    key={t.slug}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, delay: 0.08 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                    className="group relative overflow-hidden rounded-xl border border-border bg-card/50 backdrop-blur-sm p-6 hover:border-primary/40 transition-colors"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <h3 className="font-display text-lg font-medium tracking-tight">{t.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {t.description}
+                    </p>
+                    <p className="mt-5 font-mono text-xs italic text-foreground/70 leading-relaxed border-l-2 border-primary/40 pl-3">
+                      {t.sampleOpener}
+                    </p>
+                    <Link
+                      href={`/workflow?template=${t.slug}`}
+                      className="lumen-glow group/btn mt-6 inline-flex items-center justify-between w-full gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:-translate-y-0.5 transition-transform"
+                    >
+                      <span>Use this template</span>
+                      <span className="font-mono text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">→</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
 
         {/* HERO grid — asymmetric editorial */}
         <section className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
