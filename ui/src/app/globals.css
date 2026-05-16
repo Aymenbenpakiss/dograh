@@ -129,15 +129,19 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.8 0.14 78 / 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 100%, oklch(0.62 0.13 240 / 0.05), transparent 50%);
     background-attachment: fixed;
     font-feature-settings: "ss01", "cv11";
   }
 
-  /* subtle film grain */
-  body::before {
+  /* Lumen (dark) atmosphere — amber radial halos + film grain.
+     Scoped to the dark theme so the light marketing theme stays clean. */
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.8 0.14 78 / 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, oklch(0.62 0.13 240 / 0.05), transparent 50%);
+  }
+
+  .dark body::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -153,6 +157,73 @@
     letter-spacing: -0.02em;
     font-feature-settings: "ss01", "ss02", "ss05";
   }
+}
+
+/*
+ * theme-azure — light marketing surface with sky-blue accent.
+ * Apply on the (marketing) layout wrapper. Token overrides scope to the subtree.
+ */
+.theme-azure {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0.012 250);
+  --card: oklch(0.985 0.004 240);
+  --card-foreground: oklch(0.18 0.012 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.012 250);
+  --primary: oklch(0.62 0.184 245);            /* sky-500 */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0.014 235);
+  --secondary-foreground: oklch(0.18 0.012 250);
+  --muted: oklch(0.965 0.006 240);
+  --muted-foreground: oklch(0.46 0.012 250);
+  --accent: oklch(0.7 0.176 240);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.6 0.21 27);
+  --border: oklch(0.18 0.012 250 / 10%);
+  --input: oklch(0.18 0.012 250 / 14%);
+  --ring: oklch(0.62 0.184 245);
+  --chart-1: oklch(0.62 0.184 245);
+  --chart-2: oklch(0.7 0.13 200);
+  --chart-3: oklch(0.55 0.18 270);
+  --chart-4: oklch(0.78 0.14 220);
+  --chart-5: oklch(0.5 0.14 290);
+
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+/* Azure glow for marketing CTAs (light-theme sibling of lumen-glow). */
+.azure-glow {
+  box-shadow:
+    0 0 0 1px oklch(0.62 0.184 245 / 0.18),
+    0 10px 32px -10px oklch(0.62 0.184 245 / 0.45),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.18);
+}
+
+.azure-halo {
+  position: relative;
+  isolation: isolate;
+}
+
+.azure-halo::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.62 0.184 245 / 0.55),
+    oklch(0.62 0.184 245 / 0) 35%,
+    oklch(0.62 0.184 245 / 0) 65%,
+    oklch(0.62 0.184 245 / 0.3)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* Azsetax primitives */

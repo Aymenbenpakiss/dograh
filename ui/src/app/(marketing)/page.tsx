@@ -1,20 +1,13 @@
 "use client";
 
 import { ArrowUpRight, Briefcase, Check, Headphones, Megaphone, User } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+import AuroraSky from "@/components/marketing/AuroraSky";
+import LiveCallOrb from "@/components/marketing/LiveCallOrb";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const TRANSCRIPT = [
-  { role: "AGENT", text: "Hi Marcus, this is the Azsetax assistant calling on behalf of your mortgage broker. Got a minute?" },
-  { role: "BORROWER", text: "Yeah, what's this about?" },
-  { role: "AGENT", text: "Rates dropped 0.4 points yesterday — wanted to check if a quick refi review makes sense." },
-  { role: "BORROWER", text: "Maybe. What's the new rate?" },
-  { role: "AGENT", text: "Based on your last application, you'd be looking at 5.875% — about $312/month savings." },
-  { role: "AGENT", text: "Want me to book a 10-minute follow-up with your LO this afternoon?" },
-] as const;
 
 const KPIS = [
   { value: "<60s", label: "response time" },
@@ -65,93 +58,13 @@ const PRICING_BULLETS = [
   "Bring your own Twilio, or use a managed number",
 ];
 
-const WAVEFORM_BARS = Array.from({ length: 36 }, (_, i) => i);
-
-function CallConsole() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setIndex((i) => (i + 1) % TRANSCRIPT.length);
-    }, 2200);
-    return () => clearInterval(id);
-  }, []);
-
-  const visible = [0, 1, 2].map((offset) => {
-    const realIndex = (index + offset) % TRANSCRIPT.length;
-    return { ...TRANSCRIPT[realIndex], key: `${index}-${offset}` };
-  });
-
-  return (
-    <div className="relative rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 overflow-hidden lumen-glow">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="relative inline-flex h-2 w-2">
-            <span className="absolute inset-0 rounded-full bg-primary animate-pulse-ring" />
-            <span className="relative inline-block h-2 w-2 rounded-full bg-primary" />
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] bg-primary/15 text-primary px-2 py-0.5 rounded">
-            LIVE
-          </span>
-        </div>
-        <div className="font-mono text-[10px] text-muted-foreground">RUN #4271 · 00:42</div>
-      </div>
-
-      <div className="mt-5 flex items-center justify-between border-b border-border/50 pb-4">
-        <div className="font-mono text-xs text-muted-foreground">Borrower: Marcus C.</div>
-        <div className="font-mono text-xs text-muted-foreground">Phone: +1 (305) ··· 4419</div>
-      </div>
-
-      <div className="mt-5 space-y-3 min-h-[180px]">
-        <AnimatePresence mode="popLayout">
-          {visible.map((line, idx) => (
-            <motion.div
-              key={line.key}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1 - idx * 0.3, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.4, ease: EASE }}
-              className="flex flex-col gap-1"
-            >
-              <span
-                className={`font-mono text-[10px] uppercase tracking-[0.2em] ${
-                  line.role === "AGENT" ? "text-primary/70" : "text-muted-foreground"
-                }`}
-              >
-                {line.role}
-              </span>
-              <span className="text-sm text-foreground leading-relaxed">{line.text}</span>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      <div className="mt-6 flex items-end gap-1 h-8">
-        {WAVEFORM_BARS.map((i) => (
-          <motion.span
-            key={i}
-            className="w-[3px] bg-primary/60 rounded-full"
-            animate={{ height: ["20%", "100%", "40%", "80%", "20%"] }}
-            transition={{
-              duration: 1.6 + (i % 4) * 0.3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: (i % 6) * 0.08,
-            }}
-            style={{ height: "20%" }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function MarketingHomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative pt-28 sm:pt-32 pb-16 sm:pb-24">
-        <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+      <section className="relative pt-28 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
+        <AuroraSky />
+        <div className="relative z-10 mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
           <div>
             <motion.p
               initial={{ opacity: 0, y: -8 }}
@@ -191,14 +104,14 @@ export default function MarketingHomePage() {
             >
               <Link
                 href="/auth/signup"
-                className="lumen-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+                className="azure-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
               >
                 <span>Start free trial</span>
                 <span className="font-mono text-xs opacity-60 transition-transform group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="#demo"
-                className="group inline-flex items-center gap-2 rounded-md border border-border px-6 py-3.5 text-sm font-medium text-foreground hover:border-primary/60 hover:text-primary transition-colors"
+                className="group inline-flex items-center gap-2 rounded-md border border-border bg-card/40 backdrop-blur-sm px-6 py-3.5 text-sm font-medium text-foreground hover:border-primary/60 hover:text-primary transition-colors"
               >
                 <span>Watch a demo call</span>
               </Link>
@@ -227,7 +140,7 @@ export default function MarketingHomePage() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
             className="hidden lg:block"
           >
-            <CallConsole />
+            <LiveCallOrb />
           </motion.div>
         </div>
       </section>
@@ -494,7 +407,7 @@ export default function MarketingHomePage() {
           >
             <Link
               href="/auth/signup"
-              className="lumen-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="azure-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               <span>Start free trial</span>
               <span className="font-mono text-xs opacity-60 transition-transform group-hover:translate-x-1">→</span>

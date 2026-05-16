@@ -267,7 +267,7 @@ export default function FeaturesPage() {
           >
             <Link
               href="/auth/signup"
-              className="lumen-glow group relative overflow-hidden inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="azure-glow group relative overflow-hidden inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               <span className="relative z-10 inline-flex items-center gap-2.5">
                 <span>Start free trial</span>

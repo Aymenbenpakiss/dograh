@@ -205,7 +205,7 @@ export default function DocsPage() {
         className="py-20 border-t border-border/50"
       >
         <div className="mx-auto max-w-5xl px-6">
-          <div className="lumen-glow rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 sm:p-10 flex flex-wrap items-center justify-between gap-6">
+          <div className="azure-glow rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 sm:p-10 flex flex-wrap items-center justify-between gap-6">
             <div className="max-w-xl">
               <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary/80 flex items-center gap-3">
                 <span className="inline-block h-px w-8 bg-primary/60" />
@@ -226,7 +226,7 @@ export default function DocsPage() {
             </div>
             <Link
               href="/docs/quickstart"
-              className="lumen-glow group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:-translate-y-0.5 transition-transform"
+              className="azure-glow group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:-translate-y-0.5 transition-transform"
             >
               Open docs
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -251,7 +251,7 @@ export default function DocsPage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/auth/signup"
-              className="lumen-glow group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:-translate-y-0.5 transition-transform"
+              className="azure-glow group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:-translate-y-0.5 transition-transform"
             >
               <Zap className="h-4 w-4" strokeWidth={1.8} />
               Start free trial

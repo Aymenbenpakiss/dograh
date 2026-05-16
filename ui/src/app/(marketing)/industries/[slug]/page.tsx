@@ -140,7 +140,7 @@ export default function IndustryPlaybookPage() {
             What it sounds like in <em className="italic text-primary">production.</em>
           </motion.h2>
 
-          <div className="mt-12 lumen-glow rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 sm:p-10 max-w-3xl mx-auto">
+          <div className="mt-12 azure-glow rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 sm:p-10 max-w-3xl mx-auto">
             <div className="space-y-5">
               {industry.scriptSnippet.map((turn, i) => (
                 <motion.div
@@ -194,7 +194,7 @@ export default function IndustryPlaybookPage() {
           >
             <Link
               href={industry.cta.primaryHref}
-              className="lumen-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="azure-glow group inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               <span>{industry.cta.primaryLabel}</span>
               <span className="font-mono text-xs opacity-60 transition-transform group-hover:translate-x-1">→</span>

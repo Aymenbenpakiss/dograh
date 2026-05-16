@@ -152,7 +152,7 @@ export default function PricingPage() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-            <div className="lumen-glow relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 sm:p-12">
+            <div className="azure-glow relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 sm:p-12">
               <div
                 className="absolute -right-20 -top-20 h-[280px] w-[280px] rounded-full bg-primary/10 blur-3xl"
                 aria-hidden
@@ -194,7 +194,7 @@ export default function PricingPage() {
 
                 <Link
                   href="/auth/signup"
-                  className="lumen-glow group mt-10 inline-flex items-center justify-center w-full gap-2.5 rounded-md bg-primary px-6 py-4 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+                  className="azure-glow group mt-10 inline-flex items-center justify-center w-full gap-2.5 rounded-md bg-primary px-6 py-4 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
                 >
                   <span>Start free trial — first 100 minutes free</span>
                   <span className="font-mono text-xs opacity-60 group-hover:translate-x-1 transition-transform">
@@ -402,7 +402,7 @@ export default function PricingPage() {
           >
             <Link
               href="/auth/signup"
-              className="lumen-glow group relative overflow-hidden inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="azure-glow group relative overflow-hidden inline-flex items-center gap-2.5 rounded-md bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               <span className="relative z-10 inline-flex items-center gap-2.5">
                 <span>Start free trial</span>

@@ -59,7 +59,7 @@ export default function MarketingNav() {
 
           <Link
             href="/auth/signup"
-            className="lumen-glow group relative overflow-hidden rounded-md bg-primary px-5 py-2.5 text-sm font-medium tracking-wide text-primary-foreground transition-colors"
+            className="azure-glow group relative overflow-hidden rounded-md bg-primary px-5 py-2.5 text-sm font-medium tracking-wide text-primary-foreground transition-colors"
           >
             <span className="relative z-10 inline-flex items-center gap-2">
               Get started
@@ -100,7 +100,7 @@ export default function MarketingNav() {
               <Link
                 href="/auth/signup"
                 onClick={() => setMobileOpen(false)}
-                className="lumen-glow group relative block overflow-hidden rounded-md bg-primary px-5 py-3 text-center text-sm font-medium tracking-wide text-primary-foreground transition-colors"
+                className="azure-glow group relative block overflow-hidden rounded-md bg-primary px-5 py-3 text-center text-sm font-medium tracking-wide text-primary-foreground transition-colors"
               >
                 <span className="relative z-10">Get started</span>
                 <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
