@@ -24,8 +24,19 @@ export function LocalProviderWrapper({ children }: { children: React.ReactNode }
           setUser(data.user);
           logger.info('OSS auth initialized', { user: data.user });
         } else if (response.status === 401) {
-          // No token - redirect to login (but not if already on auth pages)
-          if (!window.location.pathname.startsWith('/auth/')) {
+          // No token - redirect to login, but only on authenticated app routes.
+          // Public marketing routes (/, /pricing, /features, /docs, /industries)
+          // and auth screens (/auth/*) and legal pages (/legal/*) stay put.
+          const p = window.location.pathname;
+          const isPublic =
+            p === '/' ||
+            p.startsWith('/auth/') ||
+            p.startsWith('/legal/') ||
+            p.startsWith('/pricing') ||
+            p.startsWith('/features') ||
+            p.startsWith('/docs') ||
+            p.startsWith('/industries');
+          if (!isPublic) {
             window.location.href = '/auth/login';
             return;
           }
