@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service — LoanDialer",
+  title: "Terms of Service — Iluminators",
 };
 
 export default function TermsPage() {

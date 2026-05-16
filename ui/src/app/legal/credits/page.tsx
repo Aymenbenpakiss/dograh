@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Credits — LoanDialer",
+  title: "Credits — Iluminators",
 };
 
 export default function CreditsPage() {
@@ -7,7 +7,7 @@ export default function CreditsPage() {
     <div className="container mx-auto px-4 py-12 max-w-2xl">
       <h1 className="text-2xl font-bold mb-4">Credits</h1>
       <p className="text-sm text-muted-foreground mb-6">
-        LoanDialer is built on open-source foundations. We are grateful to the
+        Iluminators is built on open-source foundations. We are grateful to the
         following projects and their maintainers.
       </p>
 

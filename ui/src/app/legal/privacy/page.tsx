@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy — LoanDialer",
+  title: "Privacy Policy — Iluminators",
 };
 
 export default function PrivacyPage() {

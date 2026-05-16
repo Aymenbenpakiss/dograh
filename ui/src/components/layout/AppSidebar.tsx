@@ -257,7 +257,7 @@ export function AppSidebar() {
               className="notranslate flex items-center gap-2 px-2 text-xl font-bold"
               translate="no"
             >
-              LoanDialer
+              Iluminators
               {versionInfo && (
                 <span
                   className="notranslate text-xs font-normal text-muted-foreground"
