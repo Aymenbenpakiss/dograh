@@ -2,14 +2,12 @@
 
 import Link from 'next/link';
 
-import { GitHubStarBadge } from '@/components/layout/GitHubStarBadge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/lib/auth';
 
 export default function OverviewPage() {
-    const { user, provider } = useAuth();
-    const isOSSMode = provider !== 'stack';
+    const { user } = useAuth();
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -18,38 +16,21 @@ export default function OverviewPage() {
                 <Card className="mb-8">
                     <CardHeader>
                         <CardTitle className="text-3xl">
-                            {isOSSMode ? (
-                                "Welcome to Dograh"
-                            ) : (
-                                `Welcome${user?.displayName ? `, ${user.displayName.split(' ')[0]}` : ''}!`
-                            )}
+                            {`Welcome${user?.displayName ? `, ${user.displayName.split(' ')[0]}` : ''} to LoanDialer`}
                         </CardTitle>
                         <CardDescription className="text-lg mt-2">
-                            {isOSSMode ? (
-                                <>
-                                    Open source alternative to Vapi. Help us support the project by giving us a star on GitHub.
-                                </>
-                            ) : (
-                                "Get started with building voice AI workflows"
-                            )}
+                            AI voice agents that follow up on mortgage leads while you sleep. Build a campaign, upload a lead list, and let the agent qualify borrowers, schedule callbacks, and surface hot leads back to your pipeline.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        {isOSSMode && (
-                            <div className="mb-6">
-                                <GitHubStarBadge label="Star us on GitHub" showCount source="overview_page" />
-                            </div>
-                        )}
-                    </CardContent>
                 </Card>
 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Create and Manage your Voice Agents</CardTitle>
+                            <CardTitle>Set up your loan follow-up agent</CardTitle>
                             <CardDescription>
-                                Build powerful AI Voice Agents with our visual editor
+                                Build a voice agent for lead qualification, refi outreach, or pre-approval follow-up using the visual editor.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -63,9 +44,9 @@ export default function OverviewPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Configure Services</CardTitle>
+                            <CardTitle>Configure voice and language models</CardTitle>
                             <CardDescription>
-                                Set up your AI services like LLM, TTS, and STT providers
+                                Pick the LLM, voice (TTS), and transcription (STT) providers your agents will use on calls.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -76,39 +57,39 @@ export default function OverviewPage() {
                             </Button>
                         </CardContent>
                     </Card>
-                </div>
 
-                {/* Resources Section */}
-                <Card className="mt-8">
-                    <CardHeader>
-                        <CardTitle>Resources</CardTitle>
-                        <CardDescription>
-                            Get help and learn more about Dograh
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-wrap gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Launch a lead-follow-up campaign</CardTitle>
+                            <CardDescription>
+                                Upload a list of mortgage leads, attach an agent, and start placing outbound calls.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
                             <Button asChild variant="outline">
-                                <a
-                                    href="https://docs.dograh.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Documentation
-                                </a>
+                                <Link href="/campaigns">
+                                    Go to Campaigns
+                                </Link>
                             </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Set up caller IDs and telephony</CardTitle>
+                            <CardDescription>
+                                Bring your own Twilio account or use a managed number to start dialing.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
                             <Button asChild variant="outline">
-                                <a
-                                    href="https://github.com/dograh-hq/dograh/issues"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Report an Issue
-                                </a>
+                                <Link href="/telephony-configurations">
+                                    Telephony
+                                </Link>
                             </Button>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );

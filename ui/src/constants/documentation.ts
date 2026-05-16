@@ -1,4 +1,7 @@
-const DOCS_BASE = "https://docs.dograh.com";
+// Brand docs site not yet published. Links resolve to "#…" no-op anchors
+// instead of pointing at upstream docs. Replace with the brand docs domain
+// when published.
+const DOCS_BASE = "#";
 
 export const NODE_DOCUMENTATION_URLS: Record<string, string> = {
     startCall: `${DOCS_BASE}/voice-agent/start-call`,
