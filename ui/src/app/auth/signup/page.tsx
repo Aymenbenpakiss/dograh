@@ -65,7 +65,7 @@ export default function SignupPage() {
             <div className="absolute inset-0 animate-pulse-ring rounded-full border border-primary/40" />
           </div>
           <div className="flex flex-col leading-none">
-            <span className="font-display text-xl font-medium tracking-tight">Iluminators</span>
+            <span className="font-display text-xl font-medium tracking-tight">Azsetax</span>
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               voice · loan · pipeline
             </span>

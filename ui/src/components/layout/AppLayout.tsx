@@ -19,7 +19,7 @@ function AppHeader() {
         <Button variant="ghost" size="icon" onClick={toggleSidebar} aria-label="Open menu" className="md:hidden">
           <Menu className="h-5 w-5" />
         </Button>
-        <Link href="/" className="text-lg font-bold md:hidden">Iluminators</Link>
+        <Link href="/" className="text-lg font-bold md:hidden">Azsetax</Link>
       </div>
     </header>
   );
@@ -31,6 +31,13 @@ interface AppLayoutProps {
   stickyTabs?: ReactNode;
 }
 
+// Marketing routes that render without the dashboard sidebar
+const MARKETING_ROUTES = ['/pricing', '/features', '/docs', '/industries'];
+
+function isMarketingRoute(pathname: string): boolean {
+  return pathname === '/' || MARKETING_ROUTES.some((r) => pathname.startsWith(r));
+}
+
 const AppLayout: React.FC<AppLayoutProps> = ({
   children,
   headerActions,
@@ -38,9 +45,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({
 }) => {
   const pathname = usePathname();
 
+  // Marketing pages bypass the authenticated sidebar entirely
+  if (isMarketingRoute(pathname)) {
+    return <>{children}</>;
+  }
+
   // Check if current route should have sidebar
-  // Hide sidebar for root (/), /handler routes (Stack Auth routes), and /auth routes
-  const shouldShowSidebar = pathname !== "/" && !pathname.startsWith("/handler") && !pathname.startsWith("/auth");
+  // Hide sidebar for /handler routes (Stack Auth routes), and /auth routes
+  const shouldShowSidebar = !pathname.startsWith("/handler") && !pathname.startsWith("/auth");
 
   // Only match the exact editor page /workflow/<id>, not sub-routes like /workflow/<id>/runs
   const isWorkflowEditor = /^\/workflow\/\d+$/.test(pathname);

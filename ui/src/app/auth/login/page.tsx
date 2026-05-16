@@ -82,7 +82,7 @@ export default function LoginPage() {
               <div className="absolute inset-0 animate-pulse-ring rounded-full border border-primary/40" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-display text-xl font-medium tracking-tight">Iluminators</span>
+              <span className="font-display text-xl font-medium tracking-tight">Azsetax</span>
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 voice · loan · pipeline
               </span>
@@ -116,7 +116,7 @@ export default function LoginPage() {
               transition={{ duration: 0.7, delay: 0.5 }}
               className="max-w-md text-[0.95rem] leading-relaxed text-muted-foreground"
             >
-              Iluminators is a voice intelligence layer for mortgage teams.
+              Azsetax is a voice intelligence layer for mortgage teams.
               We call, qualify, and route every new loan opportunity — overnight,
               over weekend, between meetings — so your producers only hear from
               borrowers who are ready to talk.
@@ -150,7 +150,7 @@ export default function LoginPage() {
             transition={{ duration: 0.6, delay: 0.9 }}
             className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
           >
-            <span>© Iluminators — MMXXVI</span>
+            <span>© Azsetax — MMXXVI</span>
             <Link href="/legal/credits" className="hover:text-foreground">
               Credits
             </Link>
@@ -171,7 +171,7 @@ export default function LoginPage() {
                 <div className="absolute inset-0 rounded-full bg-primary/20" />
                 <div className="absolute inset-[3px] rounded-full bg-primary" />
               </div>
-              <span className="font-display text-xl font-medium tracking-tight">Iluminators</span>
+              <span className="font-display text-xl font-medium tracking-tight">Azsetax</span>
             </div>
 
             <div className="mb-10">

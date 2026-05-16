@@ -25,7 +25,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle>MCP Server</CardTitle>
             <CardDescription>
-              Let AI agents access your Iluminators workspace via the
+              Let AI agents access your Azsetax workspace via the
               Model Context Protocol.
             </CardDescription>
           </CardHeader>

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 const OSS_TOKEN_COOKIE = 'dograh_auth_token';
 
 // Paths that don't require authentication in OSS mode
-const PUBLIC_PATHS = ['/auth/login', '/auth/signup', '/legal'];
+const PUBLIC_PATHS = ['/auth/login', '/auth/signup', '/legal', '/pricing', '/features', '/docs', '/industries'];
 
 let cachedAuthProvider: string | null = null;
 
@@ -40,8 +40,8 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(OSS_TOKEN_COOKIE)?.value;
   const { pathname } = request.nextUrl;
 
-  // Allow public paths without auth
-  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+  // Allow root path and public paths without auth
+  if (pathname === '/' || PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();
   }
 

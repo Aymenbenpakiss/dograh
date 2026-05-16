@@ -324,7 +324,7 @@ export default function APIKeysPage() {
                 <div className="max-w-6xl mx-auto">
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold mb-2">Developer Portal</h1>
-                        <p className="text-muted-foreground">Manage your API keys to access Iluminators services programmatically</p>
+                        <p className="text-muted-foreground">Manage your API keys to access Azsetax services programmatically</p>
                     </div>
 
                     {error && (

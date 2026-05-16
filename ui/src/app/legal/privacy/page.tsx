@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy — Iluminators",
+  title: "Privacy Policy — Azsetax",
 };
 
 export default function PrivacyPage() {

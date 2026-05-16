@@ -35,7 +35,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Iluminators",
+  title: "Azsetax",
   description: "AI voice agents for mortgage lead follow-up",
 };
 

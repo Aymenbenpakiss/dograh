@@ -46,7 +46,7 @@ export default function OverviewPage() {
                 </>
               ) : (
                 <>
-                  Welcome to <em className="italic text-primary">Iluminators.</em>
+                  Welcome to <em className="italic text-primary">Azsetax.</em>
                 </>
               )}
             </h1>
@@ -230,7 +230,7 @@ export default function OverviewPage() {
           transition={{ duration: 0.6, delay: 1 }}
           className="mt-16 flex items-center justify-between border-t border-border/50 pt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
         >
-          <span>Iluminators · voice intelligence for mortgage teams</span>
+          <span>Azsetax · voice intelligence for mortgage teams</span>
           <Link href="/legal/credits" className="hover:text-primary">
             Credits
           </Link>

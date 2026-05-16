@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service — Iluminators",
+  title: "Terms of Service — Azsetax",
 };
 
 export default function TermsPage() {
