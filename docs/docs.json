@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Dograh AI",
+  "name": "Iluminators",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#D97706",
+    "light": "#F59E0B",
+    "dark": "#92400E"
   },
   "favicon": "/favicon.ico",
   "navigation": {
@@ -266,23 +266,23 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://docs.dograh.com"
+    "href": "https://iluminators.com/docs"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "https://github.com/dograh-hq/dograh/issues/new/choose"
+        "href": "https://iluminators.com/support"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://app.dograh.com"
+      "href": "https://iluminators.com/app"
     }
   },
   "banner": {
-    "content": "🎉 **New: MCP Server & SDKs Released** — Drive Dograh from Claude, Cursor, or your own Python/TypeScript code. [MCP →](/integrations/mcp) · [SDKs →](/sdks/introduction)",
+    "content": "✨ **Iluminators is live** — Build production voice AI agents with our drag-and-drop workflow builder. [Get started →](/getting-started/index) · [SDKs →](/sdks/introduction)",
     "dismissible": true
   },
   "search": {
@@ -304,8 +304,8 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/dograh-hq",
-      "linkedin": "https://linkedin.com/company/dograh"
+      "linkedin": "https://linkedin.com/company/iluminators",
+      "website": "https://iluminators.com"
     }
   }
 }
