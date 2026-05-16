@@ -20,7 +20,6 @@ const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
   axes: ["opsz", "SOFT", "WONK"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 const sans = Instrument_Sans({
