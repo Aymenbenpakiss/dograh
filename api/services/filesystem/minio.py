@@ -1,5 +1,6 @@
 import asyncio
 import json
+import mimetypes
 from typing import Any, BinaryIO, Dict, Optional
 
 from loguru import logger
@@ -89,9 +90,28 @@ class MinioFileSystem(BaseFileSystem):
             logger.debug(f"Bucket setup note: {e}")
             pass
 
+    @staticmethod
+    def _guess_content_type(path: str) -> str:
+        """Best-effort MIME type by extension. Browsers (with X-Content-Type-Options:
+        nosniff, which MinIO sets) refuse to play <audio> when Content-Type is
+        application/octet-stream, so we set it explicitly on upload.
+        """
+        ctype, _ = mimetypes.guess_type(path)
+        if ctype:
+            return ctype
+        lower = path.lower()
+        if lower.endswith(".wav"):
+            return "audio/wav"
+        if lower.endswith(".mp3"):
+            return "audio/mpeg"
+        if lower.endswith(".webm"):
+            return "audio/webm"
+        return "application/octet-stream"
+
     async def acreate_file(self, file_path: str, content: BinaryIO) -> bool:
         try:
             data = await content.read()
+            content_type = self._guess_content_type(file_path)
 
             def _put():
                 self.client.put_object(
@@ -99,6 +119,7 @@ class MinioFileSystem(BaseFileSystem):
                     file_path,
                     data=bytes(data),
                     length=len(data),
+                    content_type=content_type,
                 )
 
             await asyncio.to_thread(_put)
@@ -108,9 +129,15 @@ class MinioFileSystem(BaseFileSystem):
 
     async def aupload_file(self, local_path: str, destination_path: str) -> bool:
         try:
+            content_type = self._guess_content_type(destination_path)
 
             def _fput():
-                self.client.fput_object(self.bucket_name, destination_path, local_path)
+                self.client.fput_object(
+                    self.bucket_name,
+                    destination_path,
+                    local_path,
+                    content_type=content_type,
+                )
 
             await asyncio.to_thread(_fput)
             return True

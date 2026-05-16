@@ -4,6 +4,7 @@ This client communicates with the Model Proxy Service (MPS) for service key mana
 Service keys are stored and managed entirely in MPS, not in the local database.
 """
 
+import os
 from typing import List, Optional
 
 import httpx
@@ -382,6 +383,19 @@ class MPSServiceKeyClient:
         Raises:
             httpx.HTTPStatusError: If the API call fails
         """
+        # Self-hosted bypass: when DEEPGRAM_API_KEY is set, call Deepgram
+        # directly instead of routing through services.dograh.com (MPS).
+        # Keeps the same return shape so downstream consumers are unaffected.
+        deepgram_key = os.getenv("DEEPGRAM_API_KEY")
+        if deepgram_key:
+            return await self._transcribe_direct_deepgram(
+                audio_data=audio_data,
+                content_type=content_type,
+                language=language,
+                api_key=deepgram_key,
+                correlation_id=correlation_id,
+            )
+
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
             files = {
                 "file": (filename, audio_data, content_type),
@@ -415,6 +429,72 @@ class MPSServiceKeyClient:
                     request=response.request,
                     response=response,
                 )
+
+    async def _transcribe_direct_deepgram(
+        self,
+        audio_data: bytes,
+        content_type: str,
+        language: str,
+        api_key: str,
+        correlation_id: Optional[str] = None,
+    ) -> dict:
+        """Direct Deepgram pre-recorded transcription, bypassing MPS.
+
+        Returns the same shape MPS does:
+        { "transcript": str, "duration_seconds": float, "language": str }
+        """
+        model = os.getenv("DEEPGRAM_MODEL", "nova-2-general")
+        params = {
+            "model": model,
+            "language": language,
+            "smart_format": "true",
+            "punctuate": "true",
+        }
+        headers = {
+            "Authorization": f"Token {api_key}",
+            "Content-Type": content_type or "audio/wav",
+        }
+        if correlation_id:
+            headers["X-Correlation-Id"] = correlation_id
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
+            response = await client.post(
+                "https://api.deepgram.com/v1/listen",
+                params=params,
+                headers=headers,
+                content=audio_data,
+            )
+
+        if response.status_code != 200:
+            logger.error(
+                f"Direct Deepgram transcription failed: {response.status_code} - {response.text[:300]}"
+            )
+            raise httpx.HTTPStatusError(
+                f"Deepgram transcription failed: {response.text[:300]}",
+                request=response.request,
+                response=response,
+            )
+
+        payload = response.json()
+        try:
+            alt = payload["results"]["channels"][0]["alternatives"][0]
+            transcript = alt.get("transcript", "")
+            duration = float(payload.get("metadata", {}).get("duration", 0.0))
+        except (KeyError, IndexError, TypeError) as exc:
+            logger.error(f"Unexpected Deepgram response shape: {exc} | {payload}")
+            transcript = ""
+            duration = 0.0
+
+        logger.info(
+            f"Direct Deepgram transcription succeeded (chars={len(transcript)}, duration={duration:.1f}s, model={model})"
+        )
+        return {
+            "transcript": transcript,
+            "duration_seconds": duration,
+            "language": language,
+            "provider": "deepgram-direct",
+            "model": model,
+        }
 
     def validate_service_key(
         self,
