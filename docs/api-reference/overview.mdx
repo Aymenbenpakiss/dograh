@@ -54,18 +54,15 @@ For validation errors (422), the detail may be a list:
 
 ## Health check
 
-Verify your instance is reachable before making API calls.
+Verify the API is reachable.
 
 ```bash
-curl https://your-asisso-instance/api/v1/health
+curl https://app.asisso.com/api/v1/health
 ```
 
 ```json
 {
   "status": "ok",
-  "version": "1.0.0",
-  "backend_api_endpoint": "https://your-asisso-instance",
-  "deployment_mode": "oss",
-  "auth_provider": "local"
+  "version": "1.0.0"
 }
 ```

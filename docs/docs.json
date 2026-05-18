@@ -17,14 +17,7 @@
           {
             "group": "Getting started",
             "pages": [
-              {
-                "group": "Introduction",
-                "pages": [
-                  "getting-started/index",
-                  "getting-started/prerequisites",
-                  "getting-started/troubleshooting"
-                ]
-              }
+              "getting-started/index"
             ]
           },
           {
@@ -126,8 +119,7 @@
             "group": "Guides",
             "pages": [
               "developer/workflow-schema",
-              "developer/webhooks",
-              "developer/environment-variables"
+              "developer/webhooks"
             ]
           },
           {
@@ -137,24 +129,6 @@
               "sdks/introduction",
               "sdks/build-an-agent",
               "sdks/outbound-calls"
-            ]
-          },
-          {
-            "group": "Deployment",
-            "pages": [
-              "deployment/introduction",
-              "deployment/docker",
-              "deployment/custom-domain",
-              "deployment/scaling",
-              "deployment/update",
-              "deployment/heroku"
-            ]
-          },
-          {
-            "group": "Contribution",
-            "pages": [
-              "contribution/introduction",
-              "contribution/setup"
             ]
           }
         ]

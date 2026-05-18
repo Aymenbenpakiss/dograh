@@ -1,31 +1,32 @@
 ---
-title: "Introduction"
+title: "Welcome to Asisso"
+description: "Build production voice AI agents in minutes — no infrastructure required."
 ---
 
-## About Asisso
+## What is Asisso
 
-**Asisso is a production-ready voice AI platform** — build, deploy, and scale conversational agents for telephony and WebRTC without wiring up the plumbing yourself. With Asisso you get:
-- **Drag-and-drop workflow builder** — design multi-turn agents visually, no boilerplate
-- **Telephony-native** — bring your Twilio, Vonage, Plivo, Telnyx, or Cloudonix numbers
-- **Bring-your-own models** — swap LLM, TTS, and STT providers per node
-- **Self-hostable** — run it on your own infrastructure with full data control
+**Asisso is a fully managed voice AI platform.** Design conversational agents in a visual workflow builder, plug in your telephony numbers, and start running calls — we host everything for you.
 
-## Overview
+- **Visual workflow builder** — design multi-turn voice agents with drag-and-drop nodes
+- **Telephony-ready** — connect Twilio, Vonage, Plivo, Telnyx, Cloudonix, and more
+- **Best-in-class models** — Asisso routes to leading LLM, TTS, and STT providers under the hood
+- **Production-grade infrastructure** — managed scaling, recording, transcripts, observability
+- **API + SDKs** — drive agents and calls from your own code with Python or TypeScript
 
-<Note>Walkthrough video coming soon.</Note>
+## Quickstart
 
-## Setting up
+1. **Create your account** at [app.asisso.com](https://asisso.com/app)
+2. **Build your first agent** — open the Voice Agent Builder and start from a template, or design from scratch
+3. **Connect a phone number** — link your Twilio / Vonage / Plivo / Telnyx / Cloudonix account in Telephony Configurations, or use an Asisso-provided number
+4. **Place a test call** — use the in-dashboard "Test call" button, then trigger calls programmatically via the [Calls API](/api-reference/calls)
 
-Get the platform up and running using Docker with a single command on your local computer. If you are looking to deploy the platform on a server different than your local machine, please check the [Deployment](deployment/introduction) section.
+<Note>
+  Need an account? [Sign up](https://asisso.com/app) or [talk to sales](https://asisso.com/contact) for enterprise plans.
+</Note>
 
-<Note>We collect anonymous usage data to improve the product. You can opt out by setting the `ENABLE_TELEMETRY` to `false` in the below command.</Note>
+## Next steps
 
-```bash
-curl -o docker-compose.yaml https://raw.githubusercontent.com/asisso/asisso/main/docker-compose.yaml && REGISTRY=ghcr.io/asisso ENABLE_TELEMETRY=true docker compose up --pull always
-```
-
-Please check [Prerequisites](getting-started/prerequisites) for the system requirements and [Troubleshooting](getting-started/troubleshooting) for common issues.
-
-## Next Steps
-
-You can see how to configure the inference provider in [Inference Provider](/configurations/inference-providers).
+- **[How Asisso works](/core-concepts/how-asisso-works)** — the mental model behind workflows, agents, and runs
+- **[Voice Agent Builder](/voice-agent/introduction)** — build your first agent
+- **[Telephony setup](/integrations/telephony/overview)** — connect your phone numbers
+- **[API & SDKs](/sdks/introduction)** — automate from code

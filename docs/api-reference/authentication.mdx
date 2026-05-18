@@ -8,19 +8,15 @@ description: "How to authenticate requests to the Asisso API"
 API keys are the recommended way to authenticate programmatic requests. Pass your key in the `X-API-Key` request header.
 
 ```bash
-curl https://your-asisso-instance/api/v1/workflow/fetch \
-  -H "X-API-Key: dg_your_api_key"
+curl https://app.asisso.com/api/v1/workflow/fetch \
+  -H "X-API-Key: as_your_api_key"
 ```
 
 API keys are scoped to an organization. All resources created or accessed using a key belong to that organization.
 
 ### Create an API key
 
-Create keys in the dashboard under **Settings → API Keys**. The full key is shown **only once** at creation time — store it immediately in a secrets manager or environment variable.
-
-<Note>
-For self-hosted deployments using local auth, sign up and log in via the dashboard first, then create an API key there before making API calls.
-</Note>
+Create keys in the dashboard at [`app.asisso.com/api-keys`](https://asisso.com/app/api-keys). The full key is shown **only once** at creation time — store it immediately in a secrets manager or environment variable.
 
 ### Manage API keys
 

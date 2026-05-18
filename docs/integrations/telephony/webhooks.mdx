@@ -81,19 +81,6 @@ Asisso automatically:
 5. Manages WebSocket connections for audio streaming
 6. Handles provider-specific audio formats and protocols
 
-## Local Development
-
-For local development, use the built-in Cloudflare tunnel:
-
-```yaml
-# docker-compose.yml includes:
-cloudflared:
-  image: cloudflare/cloudflared:latest
-  command: tunnel --no-autoupdate --url http://api:8000
-```
-
-The tunnel URL is automatically detected and used for webhooks.
-
 ## Troubleshooting
 
 <AccordionGroup>

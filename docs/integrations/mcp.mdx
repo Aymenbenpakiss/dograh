@@ -9,22 +9,10 @@ Asisso exposes an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
 
 ## Prerequisites
 
-- A Asisso API key. Generate one at [`/api-keys`](https://app.asisso.com/api-keys) (or `http://localhost:3010/api-keys` for self-hosted). See [API Keys](/configurations/api-keys).
-- Your Asisso MCP endpoint:
-  - Hosted: `https://app.asisso.com/api/v1/mcp/`
-  - Self-hosted: `<YOUR_BACKEND_URL>/api/v1/mcp/`
+- An Asisso API key. Generate one at [`app.asisso.com/api-keys`](https://asisso.com/app/api-keys). See [API Keys](/configurations/api-keys).
+- Your Asisso MCP endpoint: `https://app.asisso.com/api/v1/mcp/`
 
-The endpoint is also shown in **Platform Settings → MCP Server** inside the Asisso UI.
-
-<Note>
-If you deployed Asisso to a remote server using [`setup_remote.sh`](/deployment/docker#option-2%3A-remote-server-deployment), your endpoint is served with a self-signed SSL certificate. Claude Code will refuse MCP connections to it unless you start the CLI with TLS verification disabled:
-
-```bash
-NODE_TLS_REJECT_UNAUTHORIZED=0 claude
-```
-
-This is only required for self-signed certificates. If you have set up a [custom domain](/deployment/custom-domain) with Let's Encrypt certificates via Certbot, no extra flag is needed.
-</Note>
+The endpoint is also shown in **Platform Settings → MCP Server** inside the Asisso dashboard.
 
 ## Claude Code
 
@@ -35,7 +23,7 @@ claude mcp add --transport http asisso https://app.asisso.com/api/v1/mcp/ \
   --header "X-API-Key: YOUR_API_KEY"
 ```
 
-Replace `YOUR_API_KEY` with the key you generated. For self-hosted deployments, swap the URL for your backend.
+Replace `YOUR_API_KEY` with the key you generated.
 
 Verify the server is connected:
 
@@ -88,7 +76,7 @@ Once the MCP server is connected, you can drive Asisso from your coding agent in
 
 - "Search the Asisso docs for how to configure a TURN server."
 - "What node types does Asisso support, and what fields does a `knowledge_base` node take?"
-- "How do I deploy Asisso on a custom domain with HTTPS?"
+- "How do I trigger an outbound call from the Asisso API?"
 
 <Note>
 Agent edits are saved as a new **draft** version — your published agent keeps serving calls until you explicitly publish the draft from the Asisso UI.
