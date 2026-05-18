@@ -86,6 +86,29 @@ from pipecat.utils.run_context import set_current_org_id, set_current_run_id
 ensure_tracing()
 
 
+def _resolve_is_realtime(workflow_run, user_config) -> tuple[bool, str]:
+    """Resolve the realtime flag for this run.
+
+    Precedence:
+        1. ``workflow_run.initial_context["is_realtime"]`` if it's a bool — allows
+           campaigns and ``/initiate-call`` to override per call.
+        2. ``user_config.is_realtime and user_config.realtime is not None`` —
+           matches the legacy resolution used elsewhere in this module.
+        3. ``False``.
+
+    Returns:
+        ``(value, source)`` where ``source`` is one of ``"workflow_override"`` or
+        ``"user_config"``. The source is logged once at pipeline start so a
+        single grep tells you why a given run picked the mode it did.
+    """
+    initial_context = workflow_run.initial_context or {}
+    override = initial_context.get("is_realtime")
+    if isinstance(override, bool):
+        return override, "workflow_override"
+    user_value = bool(user_config.is_realtime and user_config.realtime is not None)
+    return user_value, "user_config"
+
+
 async def run_pipeline_telephony(
     websocket,
     *,
