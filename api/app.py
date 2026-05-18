@@ -33,6 +33,9 @@ from api.services.pipecat.tracing_config import (
     handle_langfuse_sync,
     load_all_org_langfuse_credentials,
 )
+from api.services.telephony import sip_trunk_lifecycle
+from api.services.telephony.pjsip_sync import PjsipSyncWorker
+from api.services.telephony.trunk_verifier import TrunkVerifierWorker
 from api.services.worker_sync.manager import (
     WorkerSyncManager,
     set_worker_sync_manager,
@@ -63,10 +66,42 @@ async def lifespan(app: FastAPI):
         await sync_manager.start()
         set_worker_sync_manager(sync_manager)
 
+        # Multi-tenant SIP trunk workers — only start when configured.
+        # ASTERISK_REALTIME_DSN points at the Postgres on the shared
+        # Asterisk box; without it the sip_trunk provider degrades to
+        # a no-op (rows still save in Dograh, just won't reach Asterisk).
+        import os
+
+        pjsip_sync: PjsipSyncWorker | None = None
+        trunk_verifier: TrunkVerifierWorker | None = None
+        if os.environ.get("ASTERISK_REALTIME_DSN"):
+            try:
+                pjsip_sync = PjsipSyncWorker()
+                await pjsip_sync.start()
+                sip_trunk_lifecycle.set_worker(pjsip_sync)
+                logger.info("sip_trunk: PjsipSyncWorker started")
+                trunk_verifier = TrunkVerifierWorker()
+                await trunk_verifier.start()
+                logger.info("sip_trunk: TrunkVerifierWorker started")
+            except Exception:
+                logger.exception(
+                    "sip_trunk workers failed to start — sip_trunk provider "
+                    "saves will degrade to no-op until this is resolved."
+                )
+        else:
+            logger.info(
+                "sip_trunk: ASTERISK_REALTIME_DSN not set, multi-tenant SIP "
+                "trunk workers disabled."
+            )
+
         yield  # Run app
 
         # Shutdown sequence - this runs when FastAPI is shutting down
         logger.info("Starting graceful shutdown...")
+        if trunk_verifier is not None:
+            await trunk_verifier.stop()
+        if pjsip_sync is not None:
+            await pjsip_sync.stop()
         await sync_manager.stop()
 
 

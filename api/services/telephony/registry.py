@@ -40,11 +40,15 @@ class ProviderUIField:
 
     name: str  # Must match the Pydantic field name on config_request_cls
     label: str
-    type: str  # "text" | "password" | "textarea" | "string-array" | "number"
+    type: str  # "text" | "password" | "textarea" | "string-array" | "number" | "select"
     required: bool = True
     sensitive: bool = False  # If true, mask when displaying stored value
     description: Optional[str] = None
     placeholder: Optional[str] = None
+    # For type="select": list of [stored_value, human_label] pairs.
+    # Stored value is what the Pydantic field expects, label is what the
+    # user sees in the dropdown. Ignored for other types.
+    options: Optional[List[List[str]]] = None
 
 
 @dataclass(frozen=True)

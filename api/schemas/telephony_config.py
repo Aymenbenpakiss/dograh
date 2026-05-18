@@ -24,6 +24,10 @@ from api.services.telephony.providers.plivo.config import (
     PlivoConfigurationRequest,
     PlivoConfigurationResponse,
 )
+from api.services.telephony.providers.sip_trunk.config import (
+    SipTrunkConfigurationRequest,
+    SipTrunkConfigurationResponse,
+)
 from api.services.telephony.providers.telnyx.config import (
     TelnyxConfigurationRequest,
     TelnyxConfigurationResponse,
@@ -49,6 +53,7 @@ TelephonyConfigRequest = Annotated[
         ARIConfigurationRequest,
         CloudonixConfigurationRequest,
         PlivoConfigurationRequest,
+        SipTrunkConfigurationRequest,
         TelnyxConfigurationRequest,
         TwilioConfigurationRequest,
         VobizConfigurationRequest,
@@ -73,6 +78,7 @@ class TelephonyConfigurationResponse(BaseModel):
     cloudonix: Optional[CloudonixConfigurationResponse] = None
     ari: Optional[ARIConfigurationResponse] = None
     telnyx: Optional[TelnyxConfigurationResponse] = None
+    sip_trunk: Optional[SipTrunkConfigurationResponse] = None
 
 
 # ---------------------------------------------------------------------------

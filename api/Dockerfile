@@ -86,6 +86,9 @@ ENV PYTHONUNBUFFERED=1
 # Copy application code
 COPY ./api ./api
 COPY ./scripts/start_services_docker.sh ./scripts/start_services_docker.sh
+# Normalize CRLF -> LF and restore +x (both lost when uploaded from Windows)
+RUN sed -i 's/\r$//' ./scripts/start_services_docker.sh \
+ && chmod +x ./scripts/start_services_docker.sh
 
 # ts_validator Node deps (built in ts-deps stage with full node:22-slim image).
 # The validator runs as a short-lived subprocess from api/mcp_server/ts_bridge.py.

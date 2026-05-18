@@ -9,6 +9,10 @@ from api.constants import DEFAULT_CAMPAIGN_RETRY_CONFIG, DEFAULT_ORG_CONCURRENCY
 from api.db import db_client
 from api.db.models import UserModel
 from api.db.telephony_configuration_client import TelephonyConfigurationInUseError
+from api.services.telephony.sip_trunk_lifecycle import (
+    decommission_sip_trunk,
+    provision_sip_trunk,
+)
 from api.enums import OrganizationConfigurationKey, PostHogEvent
 from api.schemas.telephony_config import (
     TelephonyConfigRequest,
@@ -70,6 +74,7 @@ class TelephonyProviderUIField(BaseModel):
     sensitive: bool
     description: Optional[str] = None
     placeholder: Optional[str] = None
+    options: Optional[List[List[str]]] = None  # [[value,label], ...] for type="select"
 
 
 class TelephonyProviderMetadata(BaseModel):
@@ -129,6 +134,7 @@ async def get_telephony_providers_metadata(user: UserModel = Depends(get_user)):
                         sensitive=f.sensitive,
                         description=f.description,
                         placeholder=f.placeholder,
+                        options=f.options,
                     )
                     for f in spec.ui_metadata.fields
                 ],
@@ -297,6 +303,10 @@ async def create_telephony_configuration(
         },
     )
 
+    # sip_trunk: provision the tenant's PJSIP endpoint into Asterisk realtime.
+    # No-op for other providers.
+    await provision_sip_trunk(row)
+
     return _detail_response(row)
 
 
@@ -354,6 +364,9 @@ async def update_telephony_configuration(
         credentials=credentials,
     )
 
+    # sip_trunk: re-sync if credentials changed.
+    await provision_sip_trunk(row)
+
     return _detail_response(row)
 
 
@@ -380,6 +393,11 @@ async def delete_telephony_configuration(
     if not user.selected_organization_id:
         raise HTTPException(status_code=400, detail="No organization selected")
 
+    # Load before delete so we know the provider + endpoint name to decommission.
+    existing = await db_client.get_telephony_configuration_for_org(
+        config_id, user.selected_organization_id
+    )
+
     try:
         deleted = await db_client.delete_telephony_configuration(
             config_id, user.selected_organization_id
@@ -389,6 +407,10 @@ async def delete_telephony_configuration(
 
     if not deleted:
         raise HTTPException(status_code=404, detail="Telephony configuration not found")
+
+    # sip_trunk: remove the tenant's PJSIP rows from Asterisk realtime.
+    if existing is not None:
+        await decommission_sip_trunk(existing)
     return {"message": "Telephony configuration deleted"}
 
 
