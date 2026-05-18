@@ -7,8 +7,9 @@ per-tenant PJSIP endpoint name (``tenant_{org_id}_{config_id}``) into the
 """
 
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
+from api.services.telephony.base import CallInitiationResult
 from api.services.telephony.providers.ari.provider import ARIProvider
 
 
@@ -61,3 +62,27 @@ class SipTrunkProvider(ARIProvider):
         self.caller_id = config.get("caller_id")
         self.sip_server = config.get("sip_server")
         self.max_concurrent_calls = config.get("max_concurrent_calls", 10)
+
+    async def initiate_call(
+        self,
+        to_number: str,
+        webhook_url: str,
+        workflow_run_id: Optional[int] = None,
+        from_number: Optional[str] = None,
+        **kwargs: Any,
+    ) -> CallInitiationResult:
+        # Callers may pass either a raw E.164 number ("+355…") or a fully-formed
+        # ARI channel string ("PJSIP/355…@tenant_1_3"). Asterisk needs the
+        # latter — endpoint without a tenant aor lookup fails as "endpoint
+        # not found". Route bare numbers through this tenant's endpoint.
+        if not to_number.startswith(("SIP/", "PJSIP/")):
+            digits = to_number.lstrip("+")
+            to_number = f"PJSIP/{digits}@{self.endpoint_name}"
+
+        return await super().initiate_call(
+            to_number=to_number,
+            webhook_url=webhook_url,
+            workflow_run_id=workflow_run_id,
+            from_number=from_number,
+            **kwargs,
+        )
