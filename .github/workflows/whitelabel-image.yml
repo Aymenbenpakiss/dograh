@@ -23,7 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository_owner }}/dograh-api
+      # GHCR rejects uppercase letters in the repository name. github.repository_owner
+      # here is "Aymenbenpakiss" — hardcode the lowercased value rather than do a
+      # runtime transform (which would need a separate step + outputs).
+      IMAGE_NAME: aymenbenpakiss/dograh-api
 
     steps:
       - name: Free Disk Space
