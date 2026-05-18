@@ -24,6 +24,9 @@ class AudioConfig:
         vad_sample_rate: Sample rate for VAD processing (8000 or 16000)
         pipeline_sample_rate: Internal pipeline processing sample rate (max 16000)
         buffer_size_seconds: Audio buffer size in seconds
+        is_realtime: Whether the consuming LLM is a realtime speech-to-speech
+            service (e.g. Gemini Live, OpenAI Realtime). When True, downstream
+            consumers know audio frames target a model that requires >=16kHz.
     """
 
     transport_in_sample_rate: int
@@ -32,6 +35,7 @@ class AudioConfig:
     pipeline_sample_rate: Optional[int] = None  # If None, uses transport rates
     buffer_size_seconds: float = 5.0  # This is how frequenly we will call merge_auido
     max_recording_duration_seconds: float = 300.0  # 5 minutes max recording duration
+    is_realtime: bool = False
 
     def __post_init__(self):
         # Validate VAD sample rate
@@ -80,13 +84,22 @@ class AudioConfig:
         return int(self.pipeline_sample_rate * 2 * self.max_recording_duration_seconds)
 
 
-def create_audio_config(transport_type: str) -> AudioConfig:
+def create_audio_config(
+    transport_type: str,
+    is_realtime: bool = False,
+) -> AudioConfig:
     """Create audio configuration for a given transport.
 
     Telephony providers contribute their wire-format sample rate through the
     provider registry (``ProviderSpec.transport_sample_rate``); WebRTC modes
     use 16 kHz (transports handle resampling from/to 24 kHz). The remaining
     AudioConfig fields are derived from the chosen rate.
+
+    When ``is_realtime`` is True and the transport wire rate is below 16 kHz
+    (i.e. an 8 kHz telephony transport), the pipeline and VAD rates are bumped
+    to 16 kHz so realtime LLMs receive audio at the rate they require. Wire
+    rate is left at the transport's native value; the serializer handles the
+    8 kHz ↔ 16 kHz resample on each frame.
     """
     # Defer registry import to avoid an import cycle: the registry is imported
     # by every telephony provider package at startup.
@@ -107,9 +120,13 @@ def create_audio_config(transport_type: str) -> AudioConfig:
         )
         rate = 16000
 
+    pipeline_rate = 16000 if (is_realtime and rate < 16000) else rate
+    vad_rate = 16000 if is_realtime else rate
+
     return AudioConfig(
         transport_in_sample_rate=rate,
         transport_out_sample_rate=rate,
-        vad_sample_rate=rate,
-        pipeline_sample_rate=rate,
+        vad_sample_rate=vad_rate,
+        pipeline_sample_rate=pipeline_rate,
+        is_realtime=is_realtime,
     )
