@@ -161,8 +161,18 @@ async def run_pipeline_telephony(
             "telephony_configuration_id"
         )
 
+    user_config = await db_client.get_user_configurations(user_id)
+    is_realtime, is_realtime_source = _resolve_is_realtime(workflow_run, user_config)
+
     spec = telephony_registry.get(provider_name)
-    audio_config = create_audio_config(provider_name)
+    audio_config = create_audio_config(provider_name, is_realtime=is_realtime)
+    logger.info(
+        f"audio config for run {workflow_run_id}: "
+        f"transport={audio_config.transport_in_sample_rate}Hz "
+        f"pipeline={audio_config.pipeline_sample_rate}Hz "
+        f"vad={audio_config.vad_sample_rate}Hz "
+        f"realtime={is_realtime} (source={is_realtime_source})"
+    )
 
     transport = await spec.transport_factory(
         websocket,
@@ -219,7 +229,21 @@ async def run_pipeline_smallwebrtc(
             ]
 
     # Create audio configuration for WebRTC
-    audio_config = create_audio_config(WorkflowRunMode.SMALLWEBRTC.value)
+    workflow_run_for_rt = await db_client.get_workflow_run(workflow_run_id)
+    user_config_for_rt = await db_client.get_user_configurations(user_id)
+    is_realtime_webrtc, is_realtime_webrtc_source = _resolve_is_realtime(
+        workflow_run_for_rt, user_config_for_rt
+    )
+    audio_config = create_audio_config(
+        WorkflowRunMode.SMALLWEBRTC.value, is_realtime=is_realtime_webrtc
+    )
+    logger.info(
+        f"audio config for run {workflow_run_id}: "
+        f"transport={audio_config.transport_in_sample_rate}Hz "
+        f"pipeline={audio_config.pipeline_sample_rate}Hz "
+        f"vad={audio_config.vad_sample_rate}Hz "
+        f"realtime={is_realtime_webrtc} (source={is_realtime_webrtc_source})"
+    )
 
     transport = await create_webrtc_transport(
         webrtc_connection,
@@ -316,7 +340,10 @@ async def _run_pipeline(
     user_config = resolve_effective_config(user_config, model_overrides)
 
     # Detect realtime mode (speech-to-speech services like OpenAI Realtime, Gemini Live)
-    is_realtime = user_config.is_realtime and user_config.realtime is not None
+    # is_realtime is authoritative on audio_config because run_pipeline_telephony and
+    # run_pipeline_smallwebrtc passed it through _resolve_is_realtime. Re-deriving from
+    # user_config here would silently ignore any workflow-level override.
+    is_realtime = audio_config.is_realtime
 
     # Create services based on user configuration
     if is_realtime:
