@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Iluminators",
+  "name": "Asisso",
   "colors": {
     "primary": "#D97706",
     "light": "#F59E0B",
@@ -30,7 +30,7 @@
           {
             "group": "Core Concepts",
             "pages": [
-              "core-concepts/how-dograh-works",
+              "core-concepts/how-asisso-works",
               "core-concepts/workflows-and-agents",
               "core-concepts/calls-and-runs",
               "core-concepts/context-and-variables",
@@ -266,23 +266,23 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://iluminators.com/docs"
+    "href": "https://asisso.com/docs"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "https://iluminators.com/support"
+        "href": "https://asisso.com/support"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://iluminators.com/app"
+      "href": "https://asisso.com/app"
     }
   },
   "banner": {
-    "content": "✨ **Iluminators is live** — Build production voice AI agents with our drag-and-drop workflow builder. [Get started →](/getting-started/index) · [SDKs →](/sdks/introduction)",
+    "content": "✨ **Asisso is live** — Build production voice AI agents with our drag-and-drop workflow builder. [Get started →](/getting-started/index) · [SDKs →](/sdks/introduction)",
     "dismissible": true
   },
   "search": {
@@ -304,8 +304,8 @@
   },
   "footer": {
     "socials": {
-      "linkedin": "https://linkedin.com/company/iluminators",
-      "website": "https://iluminators.com"
+      "linkedin": "https://linkedin.com/company/asisso",
+      "website": "https://asisso.com"
     }
   }
 }
