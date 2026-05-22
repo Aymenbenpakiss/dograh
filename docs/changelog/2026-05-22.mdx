@@ -1,0 +1,18 @@
+---
+title: "May 22, 2026"
+description: "OpenAI Realtime over telephony, SIP trunk provider, and reliability fixes."
+---
+
+## New features
+
+**OpenAI Realtime is now available as a model option.** You can configure agents to use OpenAI's Realtime speech-to-speech model end-to-end, reducing turn latency on supported workflows. See [LLM configuration](/configurations/llm) and [Voice configuration](/configurations/voice).
+
+**SIP trunk telephony provider.** Bring your own SIP trunk and route inbound and outbound calls through Asisso without locking into a single carrier. Multi-tenant routing is supported out of the box. See the [Telephony overview](/integrations/telephony/overview).
+
+## Updates
+
+**Realtime models work reliably over telephony.** The audio pipeline now selects the correct sample rate automatically when a Realtime model is in use, so Realtime agents behave correctly on phone calls — not just web sessions. No configuration changes needed; existing agents pick this up automatically.
+
+## Bug fixes
+
+- **SIP trunk:** Bare phone numbers (without a SIP URI) now route correctly through the tenant endpoint instead of failing dial.
