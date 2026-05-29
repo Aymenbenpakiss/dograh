@@ -1,0 +1,23 @@
+---
+title: "May 29, 2026"
+description: "Ultravox Realtime, workflow builder improvements, and OpenAI base URL overrides."
+---
+
+## New features
+
+**Ultravox Realtime is now a supported model.** Configure agents to use Ultravox's Realtime speech-to-speech model alongside existing providers. See [LLM configuration](/configurations/llm).
+
+**Override the base URL for OpenAI models.** Point OpenAI-compatible models at a custom endpoint — useful for self-hosted gateways, regional deployments, or third-party proxies. See [LLM configuration](/configurations/llm).
+
+**Delete edges directly in the workflow builder.** A delete button now appears on edges, so you can remove connections between nodes without opening a side panel. See [Editing a workflow](/voice-agent/editing-a-workflow).
+
+## Updates
+
+**Copy inbound webhook URLs in one click.** A copy-to-clipboard button has been added next to inbound webhook URLs to speed up setup with external systems. See [Webhook](/voice-agent/webhook).
+
+**Telephony signature validation is more reliable.** Signature checks on incoming telephony events have been hardened so calls no longer drop on transient signature mismatches.
+
+## Bug fixes
+
+- **Model overrides:** API keys are now persisted with the model override at save time, so per-node model settings keep working after you change your global inference provider.
+- **API keys:** Service API key validation has been corrected, so valid keys are no longer rejected on self-hosted setups. See [API keys](/configurations/api-keys).
